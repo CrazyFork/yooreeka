@@ -52,6 +52,7 @@ public class DataPoint {
         this.label = label;
         this.attributes = attributes;
         this.attributeNames = Attributes.getNames(attributes);
+        
         if( Attributes.allText(attributes) ) {
             this.textAttributeValues = Attributes.getTextValues(attributes);    
         }

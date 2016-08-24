@@ -25,6 +25,7 @@ public class Dendrogram {
         this.levelLabelName = levelLabelName; 
     }
     
+    
     public int addLevel(String label, Cluster cluster) {
         List<Cluster> values = new ArrayList<Cluster>();
         values.add(cluster);

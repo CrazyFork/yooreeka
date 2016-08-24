@@ -35,16 +35,18 @@ public class SingleLinkAlgorithm {
         
         int k = initialClusters.size();
         
-        while( k > 1 ) {
+        while( k > 1 ) { // until all data merge to 1 cluster
             int oldK = k;
             List<Cluster> clusters = buildClusters(d);
             k = clusters.size();
-            if( oldK != k ) {
+
+            if( oldK != k ) { // add new level once there's new cluster change
                 dnd.addLevel(String.valueOf(d), clusters);
             }
 
             d = d + 1;
         }
+
         return dnd;
     }
     
@@ -54,6 +56,8 @@ public class SingleLinkAlgorithm {
         List<Cluster> clusters = new ArrayList<Cluster>();
         for(int i = 0, n = a.length; i < n; i++) {
             List<DataPoint> clusterPoints = new ArrayList<DataPoint>();
+            //只比较矩阵 左上到右下 对角线 上侧的数据, 每个点(feature)彼此之间的距离, 
+            //之所以这么做因为对角线两侧的数据是重复的
             for(int j = i, k = a.length; j < k; j++) {
                 if( a[i][j] <= distanceThreshold && usedElementFlags[j] == false ) {
                     clusterPoints.add(elements[j]);
