@@ -39,6 +39,11 @@ types of clustering methods:
           clusters by associating them with other elements from the bottom up toward
           the global (super) cluster.
 
+
+          The agglomerative algorithms differ with respect to two things:
+            * The approach that they use for merging clusters at each step of the iteration
+            * The definition of the adjacency matrix
+
         divisive hierarchical algorithms:
           follows a top-down approach—it starts with the global (super) cluster and
           proceeds by dividing the data into smaller clusters.  

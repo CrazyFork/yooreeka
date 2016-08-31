@@ -54,6 +54,7 @@ public class AverageLinkAlgorithm {
         
         double[][] clusterDistances = new double[nClusters][nClusters];
         
+        // fill similarity value to new matrix 
         for(int i = 0, n = a.length; i < n; i++) {
             for(int j = i + 1, k = a.length; j < k; j++) {
                 double d = a[i][j];
@@ -65,6 +66,7 @@ public class AverageLinkAlgorithm {
                     if( !c1.equals(c2) ) {
                         int ci = idxMapping.getIndex(c1);
                         int cj = idxMapping.getIndex(c2);
+                        //accumulate similarity value
                         clusterDistances[ci][cj] += d;
                         clusterDistances[cj][ci] += d;                        
                     }
@@ -79,7 +81,8 @@ public class AverageLinkAlgorithm {
                 Cluster cj = idxMapping.getObject(j);
                 int ni = ci.size();
                 int nj = cj.size();
-                clusterDistances[i][j] = clusterDistances[i][j] / (ni * nj);
+                // normalize weight by divide set size, this is where `average` came from
+                clusterDistances[i][j] = clusterDistances[i][j] / (ni * nj); 
                 clusterDistances[j][i] = clusterDistances[i][j];
                 // merge clusters if distance is below the threshold
                 if( merged[i] == false && merged[j] == false ) {
