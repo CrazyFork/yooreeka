@@ -19,10 +19,10 @@ public class KMeansAlgorithm {
 	private DataPoint[] allDataPoints;
 
 	/**
-	 * 
+	 *
 	 * @param k -
 	 *            desired number of clusters.
-	 * 
+	 *
 	 */
 	public KMeansAlgorithm(int k, DataPoint[] dataPoints) {
 		DataPoint[] initialCentroids = KMeansAlgorithm.pickInitialCentroids(k, dataPoints);
@@ -65,8 +65,8 @@ public class KMeansAlgorithm {
 				allClusters[i] = new Cluster(clusters.get(i));
 			}
 
-			// Calculate new cluster centroids, and 
-			// check if any of the centroids has changed
+			// Calculate new cluster centroids, and check if any of the centroids has changed
+			// this process has to converge, which will be for it to end this loop
 			centroidsChanged = false;
 			for (int i = 0; i < allClusters.length; i++) {
 				if (clusters.get(i).size() > 0) {
@@ -103,40 +103,42 @@ public class KMeansAlgorithm {
 		// Calculate random mean values for each cluster based on the data
 		/**
 		 * TODO: 4.2 -- Selecting the means for seeding
-		 * 
+		 *
 		 * In large datasets, the selection of the initial centroids can be
-		 * important from a computational (time) complexity perspective. 
-		 * 
+		 * important from a computational (time) complexity perspective.
+		 *
 		 * In general, how can we improve the seeding of the initial mean values?
 		 * For example, consider the following heuristic:
-		 * 
-		 *   1. pick randomly one node 
-		 *   2. calculate the distance between that node and O (10*k) other nodes 
-		 *   3. sort the list of nodes according to their distance from the first node 
+		 *
+		 *   1. pick randomly one node
+		 *   2. calculate the distance between that node and O (10*k) other nodes
+		 *   3. sort the list of nodes according to their distance from the first node
 		 *   4. pick every 10th node in the sequence
 		 *   5. calculate the mean distance between each one of these nodes and the original node
-		 * 
+		 *
 		 * This algorithmic choice is as ad hoc as they come, however, it does have
-		 * some key principles embedded in it? What are these principles? 
-		 * How can you generalize this algorithm? 
-		 * 
+		 * some key principles embedded in it? What are these principles?
+		 * How can you generalize this algorithm?
+		 *
 		 * Discuss advantages/disadvantages of the initial seeding with your friends.
-		 * 
+		 *
 		 */
+
+		// 从data中随便选择一个数据点来作为 centroid
 		Set<Integer> previouslyUsedIds = new HashSet<Integer>();
 		for (int i = 0; i < k; i++) {
 		    // pick point index that we haven't used yet
 		    int centroidId;
 		    do {
-		        centroidId = randGen.nextInt(data.length); 
+		        centroidId = randGen.nextInt(data.length);
 		    }
 		    while( previouslyUsedIds.add(centroidId) == false );
-		    
-		    // Create DataPoint that will represent the cluster's centroid. 
-		    String label = "Mean-" + i + "(" + data[centroidId].getLabel() + ")"; 
+
+		    // Create DataPoint that will represent the cluster's centroid.
+		    String label = "Mean-" + i + "(" + data[centroidId].getLabel() + ")";
 		    double[] values = data[centroidId].getNumericAttrValues();
 		    String[] attrNames = data[centroidId].getAttributeNames();
-			centroids[i] = new DataPoint(label, 
+			centroids[i] = new DataPoint(label,
 			        Attributes.createAttributes(attrNames, values));
 		}
 
@@ -145,7 +147,7 @@ public class KMeansAlgorithm {
 
 	/**
 	 * This method calculates the closest centroid for a given data point
-	 * 
+	 *
 	 * @param centroids
 	 * @param x is the <CODE>DataPoint</CODE> for which we seek the closest centroid
 	 * @return the index (from the centroids array) of the closest centroid
@@ -177,6 +179,7 @@ public class KMeansAlgorithm {
 		return Math.sqrt(sumXY2);
 	}
 
+	// return 在这个cluster中每个特征点的平均值
 	private double[] findCentroid(Cluster c) {
 
 		Set<DataPoint> clusterPoints = c.getElements();
@@ -233,7 +236,7 @@ public class KMeansAlgorithm {
 	        System.out.println(mean);
 	    }
 	}
-	
+
 	public void print() {
 		// show results
 		Cluster[] clusters = this.getAllClusters();

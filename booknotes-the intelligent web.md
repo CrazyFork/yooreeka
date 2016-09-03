@@ -44,11 +44,29 @@ types of clustering methods:
             * The approach that they use for merging clusters at each step of the iteration
             * The definition of the adjacency matrix
 
+
+          implementations:
+            * SingleLink
+            * AverageLink
+            * MSTSingleLinkAlgorithm
+
         divisive hierarchical algorithms:
           follows a top-down approach—it starts with the global (super) cluster and
           proceeds by dividing the data into smaller clusters.  
 
-      Partition
+      Partition:
+
+        implementations:
+          * k-means  #  that it’s the most widely used in practice due to its excellent performance characteristics.
+
+          > The algorithm of choice in the industry is k-means and its variants. The k-means algorithm is preferred due to its simplicity (in implementa- tion), its speed, and its ability to run on a parallel computational platform.
+
+            k-means traits:
+              You should know that the selection of the initial centroids is crucial for quickly ter minating the iterations as well as producing good quality clusters.           
+
+
+
+
 
     Clustering algorithms based on data type and structure:
       Grid based
@@ -63,7 +81,13 @@ types of clustering methods:
       ...
 
 
+Minimum spanning tree
 
+
+* Minimum spanning tree - https://en.wikipedia.org/wiki/Minimum_spanning_tree
+    >A minimum spanning tree is a spanning tree of a connected, undirected graph. It connects all the vertices together with the minimal total weighting for its edges.
+* Spanning tree - https://en.wikipedia.org/wiki/Spanning_tree
+    >In the mathematical field of graph theory, a spanning tree T of an undirected graph G is a subgraph that is a tree which includes all of the vertices of G.
 
 
 
@@ -85,3 +109,10 @@ notes:
 
 
 * In the end, it’s the nature of the data that determines the success of the algorithms.
+
+
+
+todos:
+
+  pending:
+    converge

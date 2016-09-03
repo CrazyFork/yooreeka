@@ -9,17 +9,17 @@ public class MSTSingleLinkAlgorithm {
     private double[][] a;
     private double[][] m;
     private ClusterSet allClusters;
-    
+
     public MSTSingleLinkAlgorithm(DataPoint[] elements, double[][] adjacencyMatrix) {
         this.elements = elements;
         this.a = adjacencyMatrix;
         this.allClusters = new ClusterSet();
     }
-    
+
     public Dendrogram cluster() {
-        
+
         m = (new MST()).buildMST(a);
-        
+
         Dendrogram dnd = new Dendrogram("Distance");
         double d = 0.0;
 
@@ -30,12 +30,12 @@ public class MSTSingleLinkAlgorithm {
         }
 
         int lastDndLevel = dnd.addLevel(String.valueOf(d), allClusters.getAllClusters());
-        
+
         double previousD = d;
-        
+
         while( allClusters.size() > 1 ) {
             d = mergeTwoClosestClusters();
-            if( previousD == d ) {
+            if( previousD == d ) {// is this necessary?
                 dnd.setLevel(lastDndLevel, String.valueOf(d), allClusters.getAllClusters());
             }
             else {
@@ -43,15 +43,16 @@ public class MSTSingleLinkAlgorithm {
             }
             previousD = d;
         }
-        
+
         return dnd;
     }
-    
+
     private double mergeTwoClosestClusters() {
         int minI = -1;
         int minJ = -1;
         double minWeight = Double.POSITIVE_INFINITY;
-        
+
+        // find closet element
         for(int i = 0, n = m.length; i < n; i++) {
             for(int j = 0, k = m.length; j < k; j++) {
                 if( m[i][j] >= 0 && minWeight > m[i][j] ) {
@@ -72,8 +73,7 @@ public class MSTSingleLinkAlgorithm {
             allClusters.remove(c1);
             allClusters.remove(c2);
             d = minWeight;
-            Cluster mergedCluster = 
-                new Cluster(c1, c2);
+            Cluster mergedCluster = new Cluster(c1, c2);
             allClusters.add(mergedCluster);
             m[minI][minJ] = -1; // remove link. Using -1 because 0 is a valid distance.
             m[minJ][minI] = -1; // remove link. Using -1 because 0 is a valid distance.
@@ -81,7 +81,7 @@ public class MSTSingleLinkAlgorithm {
 
         return d;
     }
-    
+
     public static void main(String[] args) {
         //Define data
         DataPoint[] elements = new DataPoint[5];
@@ -98,7 +98,7 @@ public class MSTSingleLinkAlgorithm {
             {2,4,1,0,3},
             {3,3,5,3,0}
         };
-        
+
         MSTSingleLinkAlgorithm ca = new MSTSingleLinkAlgorithm(elements, a);
         Dendrogram dnd = ca.cluster();
         dnd.printAll();

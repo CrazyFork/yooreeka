@@ -1,46 +1,48 @@
 package iweb2.ch4.clustering.rock;
 
-
+// well this is complicated
 /**
  * Goodness measure for merging two clusters.
  */
 public class MergeGoodnessMeasure {
 
     /*
-     * Threshold value that was used to identify neighbors among points. 
+     * Threshold value that was used to identify neighbors among points.
      */
     private double linkThreshold;
-    
+
     /*
-     * Intermediate value that is used in calculation of goodness measure 
+     * Intermediate value that is used in calculation of goodness measure
      * and stays the same for different clusters.
      */
     private double p;
-    
+
     public MergeGoodnessMeasure(double th) {
         this.linkThreshold = th;
         this.p = 1.0 + 2.0 * f(th);
     }
 
+    // this formula is explained in book @ page 150
+    // todo: still i dont get it :(
     public double g(int nLinks, int nX, int nY) {
-        double a = Math.pow(nX + nY, p);
+        double a = Math.pow(nX + nY, p); // 0 < p < 1
         double b = Math.pow(nX, p);
         double c = Math.pow(nY, p);
-        
-        return nLinks / (a - b - c); 
+
+        return nLinks / (a - b - c);
     }
-    
-    
+
+
     /**
      * This is just one of the possible implementations.
-     * 
-     * @param linkThreshold threshold value that was used to identify neighbors among points.    
+     *
+     * @param linkThreshold threshold value that was used to identify neighbors among points.
      */
     private double f(double th) {
 
         /*
          * This implementation assumes that linkThreshold was a threshold for
-         * similarity measure (as opposed to dissimilarity/distance). 
+         * similarity measure (as opposed to dissimilarity/distance).
          */
         return (1.0 - th) / (1.0 + th);
     }
